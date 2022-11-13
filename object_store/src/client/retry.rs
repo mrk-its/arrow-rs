@@ -161,7 +161,7 @@ impl RetryExt for reqwest::RequestBuilder {
                         }
                         Err(e) => {
                             let status = r.status();
-
+                            log::error!("ok err: {:?}", e);
                             if retries == max_retries
                                 || now.elapsed() > retry_timeout
                                 || !status.is_server_error() {
@@ -186,12 +186,13 @@ impl RetryExt for reqwest::RequestBuilder {
 
                             let sleep = backoff.next();
                             retries += 1;
-                            info!("Encountered server error, backing off for {} seconds, retry {} of {}", sleep.as_secs_f32(), retries, max_retries);
+                            log::info!("Encountered server error, backing off for {} seconds, retry {} of {}", sleep.as_secs_f32(), retries, max_retries);
                             tokio::time::sleep(sleep).await;
                         }
                     },
                     Err(e) =>
                     {
+                        log::error!("err: {:?}", e);
                         return Err(Error{
                             retries,
                             message: "request error".to_string(),

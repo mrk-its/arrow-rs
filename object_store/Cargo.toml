@@ -41,6 +41,7 @@ tokio = { version = "1.18", features = ["sync", "macros", "rt", "time", "io-util
 tracing = { version = "0.1" }
 url = "2.2"
 walkdir = "2"
+log = "0"
 
 # Cloud storage support
 base64 = { version = "0.13", default-features = false, optional = true }
