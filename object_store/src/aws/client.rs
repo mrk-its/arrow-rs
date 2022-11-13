@@ -219,7 +219,8 @@ impl S3Client {
     pub fn new(config: S3Config) -> Self {
         let client = reqwest::ClientBuilder::new()
             .https_only(!config.allow_http)
-            .pool_idle_timeout(std::time::Duration::from_secs(10))
+            .pool_max_idle_per_host(0)
+            .pool_idle_timeout(std::time::Duration::from_secs(15))
             .build()
             .unwrap();
 
